@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="text-align: center; font-size: 32px;">
+    <div>
+        ____________________  VIEW ENGINE EJS  ____________________________
+    </div>
+
+    <div id="0">
+         
+    </div>
+    <div id="1">
+         
+    </div>
+    <div id="2">
+         
+    </div>
+
+    <div>
+      <h1 id="kafka-holder">
+
+      </h1>
+    </div>
+    
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+
+
+         var socket = io('http://localhost:3001/');
+
+         socket.on("disconnect", err => {
+           socket.close()
+         })
+         .on("disconnection", err => {
+          alert("socket.io disconnected")
+         })
+
+         socket.on("message", data => {
+           data.map((el, i) => {
+             document.getElementById(`${i}`).innerHTML = el.username + " " + el.info
+           })
+         })
+
+         socket.on("message_from_kafka", kafka_message => {
+          console.log(kafka_message);
+          document.getElementById("kafka-holder").innerHTML = kafka_message;
+         })
+    </script>
+
+</body>
+</html>
